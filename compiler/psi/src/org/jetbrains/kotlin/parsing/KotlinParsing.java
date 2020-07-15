@@ -1673,6 +1673,8 @@ public class KotlinParsing extends AbstractKotlinParsing {
 
         parseTypeConstraintsGuarded(typeParameterListOccurred);
 
+        parseFunctionContract();
+
         if (at(SEMICOLON)) {
             advance(); // SEMICOLON
         }
@@ -1991,6 +1993,14 @@ public class KotlinParsing extends AbstractKotlinParsing {
         parseTypeRef();
 
         constraint.done(TYPE_CONSTRAINT);
+    }
+
+    private void parseFunctionContract() {
+        if (at(CONTRACT_KEYWORD)) {
+            advance(); // CONTRACT_KEYWORD
+
+            myExpressionParsing.parseContractEffectList();
+        }
     }
 
     /*
